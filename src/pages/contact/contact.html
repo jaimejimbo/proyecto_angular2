@@ -1,0 +1,25 @@
+<ion-header>
+
+  <ion-navbar color="primary">
+    <ion-title>
+      Contact
+    </ion-title>
+    <ion-buttons end>
+      <button (click)="addContact()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content color="secundary">
+  <ion-list>
+    <ion-list-header>My Contacts</ion-list-header>
+    <ion-item *ngFor="let contact of contactList | async">
+      <ion-icon name="book" danger item-left></ion-icon>
+      <h2>{{contact.name}}</h2>
+      <h3>Address: {{contact.address}}, {{contact.city}}</h3>
+      <p>Phone: {{contact.phone}}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>

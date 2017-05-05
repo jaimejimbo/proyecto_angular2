@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>addContact</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding class="add-contact">
+  <ion-item>
+    <ion-label stacked>Name</ion-label>
+    <ion-input [(ngModel)]="name" type="text" placeholder="Fill yor first and last name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Address</ion-label>
+    <ion-input [(ngModel)]="address" type="text" placeholder="Fill your full address"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Phone</ion-label>
+    <ion-input [(ngModel)]="phone" type="text" placeholder="Fill your phone number"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label stacked>City</ion-label>
+    <ion-input [(ngModel)]="city" type="text" placeholder="Fill your city"></ion-input>
+  </ion-item>
+  <button block (click)="addContact(name, address, phone, city)"> Add Contact </button>
+</ion-content>
