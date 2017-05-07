@@ -12,7 +12,6 @@ export class AboutPage {
   infojson: any={
     "reps": []
   };
-  content: string='';
   uid: Number=1;
   pattern: string="Alphabet";
   busq: string="Google";
@@ -61,6 +60,7 @@ export class AboutPage {
       Si se está trabajando en local, filtra el texto.
      */
     if (this.local){
+      this.getInfo();
       this.countWords();
     }
   }
@@ -82,13 +82,10 @@ export class AboutPage {
      */
     var regexp = new RegExp(this.pattern, "ig");
     regexp.compile();
-    console.log(this.infojson.reps);
     for (let element of this.infojson.reps){
       var content = element.content;
       var result = regexp.exec(content);
       element.num = result.length;
-      console.log(result);
-      console.log(element.num);
     }
   }
 }
