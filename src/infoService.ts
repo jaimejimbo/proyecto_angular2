@@ -11,15 +11,16 @@ export class InfoService {
     this.data = null;
   }
 
-  retrieveData() {
+  retrieveData(uid, pattern, busq) {
     //Poner aqui la página de la que se obtienen datos de python.
     var headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', '*');
+    headers.append('Access-Control-Allow-Headers', '*');
     headers.append('body', '');
-
-    this.http.get('https://www.google.es', headers)
+    this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq, headers)
       .subscribe(data => {
         this.data = data;
       });

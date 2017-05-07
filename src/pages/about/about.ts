@@ -8,10 +8,10 @@ import { Response } from '@angular/http';
   templateUrl: 'about.html'
 })
 export class AboutPage {
-  info: Response=undefined;
+  info: Response;
   uid: Number=1;
-  pattern: String="";
-  busq: String="";
+  pattern: String="Alphabet";
+  busq: String="Google";
 
   constructor(public navCtrl: NavController, public infoService: InfoService) {
     this.getInfo();
@@ -20,7 +20,7 @@ export class AboutPage {
   getInfo(){
     this.infoService.getDataPromise(this.uid, this.pattern, this.busq)
       .subscribe(data => {
-        this.info = data;
+        this.info = data.json();
       });
   }
 

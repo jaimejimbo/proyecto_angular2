@@ -19,12 +19,7 @@ import {
   //AngularFire, AuthMethods, AuthProviders, firebaseAuthConfig,
   AngularFireModule
 } from 'angularfire2';
-import {
-        Http,
-        HttpModule,
-        RequestOptions,
-        RequestMethod,
-        ConnectionBackend} from "@angular/http";
+import {HttpModule} from "@angular/http";
 
 
 const COMMON_CONFIG = {
