@@ -29,13 +29,14 @@ export class InfoService {
     return this.data;
   }
 
-  getDataPromise(){
+  getDataPromise(uid, pattern, busq){
     var headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
     headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Access-Control-Allow-Methods', '*');
+    headers.append('Access-Control-Allow-Headers', '*');
     headers.append('body', '');
-
-    return this.http.get('https://www.google.es', headers);
+    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq, headers);
   }
 }
