@@ -49,11 +49,4 @@ export class AboutPage {
       });
   }
 
-  filter(){
-    this.getInfo();
-    if (this.local){
-    } else {
-    }
-  }
-
 }
