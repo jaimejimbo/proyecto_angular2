@@ -13,7 +13,9 @@ export class AboutPage {
   pattern: String="Alphabet";
   busq: String="Google";
   pattern_: String=".*";
-  local: Boolean=true;
+  local: Boolean=false
+  prev: String="Google";
+  prevpat: String=".*";
 
   constructor(public navCtrl: NavController, public infoService: InfoService) {
     this.getInfo();
@@ -21,10 +23,26 @@ export class AboutPage {
 
   getInfo(){
     if (this.local){
-      this.pattern_ = this.pattern;
-    } else {
       this.pattern_ = ".*";
+    } else {
+      this.pattern_ = this.pattern;
     }
+    if (this.busq!==this.prev || (this.pattern!==this.prevpat && !this.local)){
+      this.getInfoCall();
+    }
+  }
+
+  checkChanged(){
+    if (this.local){
+      this.pattern_ = ".*";
+    } else {
+      this.pattern_ = this.pattern;
+    }
+    this.getInfoCall();
+    this.filter();
+  }
+
+  getInfoCall(){
     this.infoService.getDataPromise(this.uid, this.pattern_, this.busq)
       .subscribe(data => {
         this.info = data.json();
@@ -32,10 +50,9 @@ export class AboutPage {
   }
 
   filter(){
+    this.getInfo();
     if (this.local){
-
     } else {
-      this.getInfo();
     }
   }
 
