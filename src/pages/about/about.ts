@@ -12,16 +12,31 @@ export class AboutPage {
   uid: Number=1;
   pattern: String="Alphabet";
   busq: String="Google";
+  pattern_: String=".*";
+  local: Boolean=true;
 
   constructor(public navCtrl: NavController, public infoService: InfoService) {
     this.getInfo();
   }
 
   getInfo(){
-    this.infoService.getDataPromise(this.uid, this.pattern, this.busq)
+    if (this.local){
+      this.pattern_ = this.pattern;
+    } else {
+      this.pattern_ = ".*";
+    }
+    this.infoService.getDataPromise(this.uid, this.pattern_, this.busq)
       .subscribe(data => {
         this.info = data.json();
       });
+  }
+
+  filter(){
+    if (this.local){
+
+    } else {
+      this.getInfo();
+    }
   }
 
 }
