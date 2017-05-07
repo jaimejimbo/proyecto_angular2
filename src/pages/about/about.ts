@@ -29,7 +29,10 @@ export class AboutPage {
     }
     if (this.busq!==this.prev || (this.pattern!==this.prevpat && !this.local)){
       this.getInfoCall();
+    } else {
+      this.filter();
     }
+
   }
 
   checkChanged(){
@@ -42,8 +45,12 @@ export class AboutPage {
     this.filter();
   }
 
+  filter(){
+
+  }
+
   getInfoCall(){
-    this.infoService.getDataPromise(this.uid, this.pattern_, this.busq)
+    this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local)
       .subscribe(data => {
         this.info = data.json();
       });
