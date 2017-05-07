@@ -13,6 +13,13 @@ export class InfoService {
 
   retrieveData(uid, pattern, busq, local) {
     //Poner aqui la página de la que se obtienen datos de python.
+    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq+';contenido='+local, this.getHeaders())
+      .subscribe(data => {
+        this.data = data;
+      });
+  }
+
+  getHeaders(){
     var headers = new Headers();
     headers.append('Accept', 'application/json');
     headers.append('Content-Type', 'application/json');
@@ -20,10 +27,7 @@ export class InfoService {
     headers.append('Access-Control-Allow-Methods', '*');
     headers.append('Access-Control-Allow-Headers', '*');
     headers.append('body', '');
-    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq+';contenido='+local, headers)
-      .subscribe(data => {
-        this.data = data;
-      });
+    return headers;
   }
 
   getData() {
@@ -31,13 +35,6 @@ export class InfoService {
   }
 
   getDataPromise(uid, pattern, busq, local){
-    var headers = new Headers();
-    headers.append('Accept', 'application/json');
-    headers.append('Content-Type', 'application/json');
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Access-Control-Allow-Methods', '*');
-    headers.append('Access-Control-Allow-Headers', '*');
-    headers.append('body', '');
-    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq+';contenido='+local, headers);
+    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq+';contenido='+local, this.getHeaders());
   }
 }
