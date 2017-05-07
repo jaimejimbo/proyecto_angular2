@@ -15,7 +15,8 @@
     <ion-label stacked>Patrón</ion-label>
     <ion-input [(ngModel)]="pattern" (keyup)="getInfo()" type="text" placeholder="Expresión regular a buscar"></ion-input>
   </ion-item>
-  <ion-list ion-item *ngFor="let item of info?.reps">
-    {{item?.url}} -> {{item?.amount}}
+  <ion-list ion-item *ngFor="let item of info?.reps" (click)="visit(item.url)">
+    <a target="_blank" href="{{item?.url}}">{{item?.title}}</a>
+     -> {{item?.amount}}
   </ion-list>
 </ion-content>
