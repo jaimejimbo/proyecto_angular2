@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { InfoService } from '../../infoService';
 import { Response } from '@angular/http';
+import {Subscription} from "rxjs/Subscription";
+import {Observable} from "rxjs/Observable";
+import {Observer} from "rxjs/Observer";
 
 @Component({
   selector: 'page-about',
@@ -19,22 +22,58 @@ export class AboutPage {
   local: Boolean=false
   prev: string="Google";
   prevpat: string=".*";
+  subs: Subscription;
+  observable: Observable<string>;
+  observer: Observer<string>;
 
   constructor(public navCtrl: NavController, public infoService: InfoService) {
     this.getInfo();
+  }
+
+  timeoutCall(){
+
+    if (this.observer !== undefined) {
+      this.observer.complete();
+    };
+
+    this.observable = Observable.create((observer: Observer<string>) => {
+      setTimeout(() => {
+        this.observer = observer;
+        this.observer.next('');
+      }, 3000);
+      // setTimeout(() => {
+      //   this.observer.complete();
+      // }, 4000);
+      // setTimeout(() => {
+      //   this.observer.error('third package');
+      // }, 5000);
+    });
+
+    this.subs = this.observable.subscribe(
+      (data: string) => {
+        this.getInfoCall();
+      },
+      (error: string) => {
+        console.log('error');
+      },
+      () => {
+        //console.log('completed');
+      }
+    );
   }
 
   getInfo(){
     /*
       Obtiene la informacion del servidor si es necesario.
      */
+
     if (this.local){
       this.pattern_ = ".*";
     } else {
       this.pattern_ = this.pattern;
     }
     if (this.busq!==this.prev || (this.pattern!==this.prevpat && !this.local)){
-      this.getInfoCall();
+      this.timeoutCall();
     } else {
       this.filter();
     }
