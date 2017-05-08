@@ -13,12 +13,23 @@
   </ion-item>
   <ion-item>
     <ion-label stacked>Patrón</ion-label>
-    <ion-input [(ngModel)]="pattern" (keyup)="getInfo()" type="text" placeholder="Expresión regular a buscar"></ion-input>
+    <ion-input [(ngModel)]="pattern" (keyup)="update()" type="text" placeholder="Expresión regular a buscar"></ion-input>
   </ion-item>
-  <ion-item>
+  <!--<ion-item>
     <ion-label>Tratar datos localmente</ion-label>
     <ion-checkbox [(ngModel)]="local" (ngModelChange)="checkChanged()"></ion-checkbox>
   </ion-item>
+  <ion-item>
+    <ion-label>Numero de resultados</ion-label>
+    <ion-input [(ngModel)]="resultados" (change)="checkChanged()" type="number"></ion-input>
+  </ion-item>-->
+  <!--<ion-item>
+    <ion-range [(ngModel)]="resultados" min="0" max="20" color="secondary" (change)="scrollChanged()">
+      <ion-label range-left>0</ion-label>
+      <ion-label range-right>20</ion-label>
+    </ion-range>
+  </ion-item>-->
+
   <ion-row>
     <ion-col>
       Titulo
@@ -33,7 +44,7 @@
         <a target="_blank" href="{{item?.url}}">{{item?.title}}</a>
       </ion-col>
       <ion-col>
-        {{item?.amount}}
+        {{coincidencias}}
       </ion-col>
     </ion-row>
   </ion-list>

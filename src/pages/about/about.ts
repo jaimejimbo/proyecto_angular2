@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { InfoService } from '../../infoService';
-import { Response } from '@angular/http';
+import {Component} from '@angular/core';
+import {NavController} from 'ionic-angular';
+import {InfoService} from '../../infoService';
+import {Response} from '@angular/http';
 import {Subscription} from "rxjs/Subscription";
 import {Observable} from "rxjs/Observable";
 import {Observer} from "rxjs/Observer";
@@ -12,123 +12,136 @@ import {Observer} from "rxjs/Observer";
 })
 export class AboutPage {
   info: Response;
-  infojson: any={
+  infojson: any = {
     "reps": []
   };
-  uid: Number=1;
-  pattern: string="Alphabet";
-  busq: string="Google";
-  pattern_: string=".*";
-  local: Boolean=false
-  prev: string="Google";
-  prevpat: string=".*";
+  uid: Number = 1;
+  pattern: string = "Alphabet";
+  busq: string = "Google";
+  pattern_: string = ".*";
+  local: Boolean = true;
+  forced: Boolean = true;
+  prev: string = "Google";
+  prevpat: string = ".*";
   subs: Subscription;
   observable: Observable<string>;
   observer: Observer<string>;
-  locked: Boolean=false;
+  locked: Boolean = false;
+  resultados: number = 10;
+  coincidencias: number=10;
 
   constructor(public navCtrl: NavController, public infoService: InfoService) {
     this.getInfo();
   }
 
-  timeoutCall(){
-
-    if (this.observer !== undefined) {
-      //this.observer.complete();
-    };
-
-    if (!this.locked){
+  timeoutCall() {
+    /*
+     Llamada con timeout y con "candado" para evitar que se sature el servidor.
+     */
+    if (!this.locked) {
       this.locked = true;
-      this.observable = Observable.create((observer: Observer<string>) => {
-        setTimeout(() => {
-          this.observer = observer;
-          this.observer.next('');
-        }, 3000);
+      setTimeout(() => {
+        this.getInfoCall();
       });
-
-
-      this.subs = this.observable.subscribe(
-        (dat: string) => {
-          this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local)
-            .subscribe(data => {
-              this.info = data;
-              this.infojson = data.json();
-              this.locked = false;
-            });
-        },
-        (error: string) => {
-          console.log('error');
-        },
-        () => {
-          //console.log('completed');
-        }
-      );
-    };
+    }
+    ;
   }
 
-  getInfo(){
+  getInfo() {
     /*
-      Obtiene la informacion del servidor si es necesario.
+     Obtiene la informacion del servidor si es necesario.
      */
 
-    if (this.local){
-      this.pattern_ = ".*";
-    } else {
-      this.pattern_ = this.pattern;
-    }
-    if (this.busq!==this.prev || (this.pattern!==this.prevpat && !this.local)){
+    this.setPattern();
+
+    var busqueda_cambiada = this.busq !== this.prev;
+    var patron_cambiado = (this.pattern !== this.prevpat) && (!this.local);
+
+    if (busqueda_cambiada || patron_cambiado || this.forced) {
       this.timeoutCall();
-    } else {
-      this.filter();
     }
 
   }
 
-  checkChanged(){
-    /*
-      Se ejecuta cuando se cambia el estado del checkbox.
-      Vuelve a pedir los datos del servidor.
-     */
-    if (this.local){
+  setPattern() {
+    if (this.local) {
       this.pattern_ = ".*";
     } else {
       this.pattern_ = this.pattern;
     }
-    this.getInfoCall();
-    this.filter();
   }
 
-  filter(){
+  checkChanged() {
     /*
-      Si se está trabajando en local, filtra el texto.
+     Se ejecuta cuando se cambia el estado del checkbox.
+     Vuelve a pedir los datos del servidor.
      */
-    if (this.local){
+    this.setPattern();
+    this.getInfo();
+  }
+
+  scrollChanged() {
+    //this.forced = true;
+    if (!this.locked) {
       this.getInfo();
+    }
+    ;
+  }
+
+  filter() {
+    /*
+     Si se está trabajando en local, filtra el texto.
+     */
+    if (this.local) {
       this.countWords();
     }
   }
 
-  getInfoCall(){
+  update() {
+    if (this.local) {
+      this.filter();
+    } else {
+      this.getInfo();
+    }
+  }
+
+  getInfoCall() {
     /*
-    Obtiene la informacion del servidor.
+     Obtiene la informacion del servidor sin timeouts (recomendado solo para cambios puntuales (checkbox)).
      */
-    this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local)
+    this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local, this.resultados)
       .subscribe(data => {
         this.info = data;
         this.infojson = data.json();
+        this.forced = false;
+        this.locked = false;
+        this.filter();
       });
   }
 
   countWords() {
     /*
-    Cuenta el numero de repeticiones de la palabra dada.
+     Cuenta el numero de repeticiones de la palabra dada.
      */
-    var regexp = new RegExp(this.pattern, "ig");
-    regexp.compile();
-    for (let element of this.infojson.reps){
+    console.log(this.pattern);
+    var regexp = new RegExp(".?" + this.pattern.toLowerCase() + ".?", "gi");
+    console.log(regexp);
+    var max=0;
+    for (let element of this.infojson.reps) {
       var content = element.content;
       var result = regexp.exec(content);
-      element.num = result.length;
+      console.log(result);
+      if (result != null) {
+        element.amount = result.length;
+        if (element.amount>max){
+            max=element.amount;
+        }
+      }
+      else {
+        element.amount = 0;
+      }
     }
+    this.coincidencias = max;
   }
+
 }

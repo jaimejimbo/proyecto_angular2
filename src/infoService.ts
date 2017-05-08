@@ -11,9 +11,9 @@ export class InfoService {
     this.data = null;
   }
 
-  retrieveData(uid, pattern, busq, local) {
+  retrieveData(uid, pattern, busq, local, resultados) {
     //Poner aqui la página de la que se obtienen datos de python.
-    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq+';contenido='+local, this.getHeaders())
+    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq+';contenido='+local+';results='+resultados, this.getHeaders())
       .subscribe(data => {
         this.data = data;
       });
@@ -34,7 +34,7 @@ export class InfoService {
     return this.data;
   }
 
-  getDataPromise(uid, pattern, busq, local){
-    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq+';contenido='+local, this.getHeaders());
+  getDataPromise(uid, pattern, busq, local, resultados){
+    return this.http.get('https://secret-stream-16565.herokuapp.com/apijson/?uid='+uid+';pattern='+pattern+';busq='+busq+';contenido='+local+';results='+resultados, this.getHeaders());
   }
 }
