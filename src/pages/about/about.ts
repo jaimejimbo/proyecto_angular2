@@ -34,7 +34,7 @@ export class AboutPage {
   timeoutCall(){
 
     if (this.observer !== undefined) {
-      this.observer.complete();
+      //this.observer.complete();
     };
 
     if (!this.locked){
@@ -45,25 +45,25 @@ export class AboutPage {
           this.observer.next('');
         }, 3000);
       });
+
+
+      this.subs = this.observable.subscribe(
+        (dat: string) => {
+          this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local)
+            .subscribe(data => {
+              this.info = data;
+              this.infojson = data.json();
+              this.locked = false;
+            });
+        },
+        (error: string) => {
+          console.log('error');
+        },
+        () => {
+          //console.log('completed');
+        }
+      );
     };
-
-
-    this.subs = this.observable.subscribe(
-      (dat: string) => {
-        this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local)
-          .subscribe(data => {
-            this.info = data;
-            this.infojson = data.json();
-            this.locked = false;
-          });
-      },
-      (error: string) => {
-        console.log('error');
-      },
-      () => {
-        //console.log('completed');
-      }
-    );
   }
 
   getInfo(){
