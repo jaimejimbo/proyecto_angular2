@@ -37,21 +37,16 @@ export class AboutPage {
       this.observer.complete();
     };
 
-    this.observable = Observable.create((observer: Observer<string>) => {
-      setTimeout(() => {
-        if (!this.locked){
-          this.locked = true;
+    if (!this.locked){
+      this.locked = true;
+      this.observable = Observable.create((observer: Observer<string>) => {
+        setTimeout(() => {
           this.observer = observer;
           this.observer.next('');
-        };
-      }, 3000);
-      // setTimeout(() => {
-      //   this.observer.complete();
-      // }, 4000);
-      // setTimeout(() => {
-      //   this.observer.error('third package');
-      // }, 5000);
-    });
+        }, 3000);
+      });
+    };
+
 
     this.subs = this.observable.subscribe(
       (dat: string) => {
