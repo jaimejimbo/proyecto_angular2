@@ -25,6 +25,7 @@ export class AboutPage {
   subs: Subscription;
   observable: Observable<string>;
   observer: Observer<string>;
+  locked: Boolean=false;
 
   constructor(public navCtrl: NavController, public infoService: InfoService) {
     this.getInfo();
@@ -38,8 +39,11 @@ export class AboutPage {
 
     this.observable = Observable.create((observer: Observer<string>) => {
       setTimeout(() => {
-        this.observer = observer;
-        this.observer.next('');
+        if (!this.locked){
+          this.locked = true;
+          this.observer = observer;
+          this.observer.next('');
+        };
       }, 3000);
       // setTimeout(() => {
       //   this.observer.complete();
@@ -50,8 +54,13 @@ export class AboutPage {
     });
 
     this.subs = this.observable.subscribe(
-      (data: string) => {
-        this.getInfoCall();
+      (dat: string) => {
+        this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local)
+          .subscribe(data => {
+            this.info = data;
+            this.infojson = data.json();
+            this.locked = false;
+          });
       },
       (error: string) => {
         console.log('error');
