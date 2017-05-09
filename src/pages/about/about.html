@@ -1,7 +1,8 @@
+
 <ion-header>
   <ion-navbar color="primary">
     <ion-title>
-
+      Wikipedia stats
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -15,11 +16,11 @@
     <ion-label stacked>Patrón</ion-label>
     <ion-input [(ngModel)]="pattern" (keyup)="update()" type="text" placeholder="Expresión regular a buscar"></ion-input>
   </ion-item>
-  <!--<ion-item>
+  <ion-item>
     <ion-label>Tratar datos localmente</ion-label>
     <ion-checkbox [(ngModel)]="local" (ngModelChange)="checkChanged()"></ion-checkbox>
   </ion-item>
-  <ion-item>
+  <!--<ion-item>
     <ion-label>Numero de resultados</ion-label>
     <ion-input [(ngModel)]="resultados" (change)="checkChanged()" type="number"></ion-input>
   </ion-item>-->
@@ -44,7 +45,7 @@
         <a target="_blank" href="{{item?.url}}">{{item?.title}}</a>
       </ion-col>
       <ion-col>
-        {{coincidencias}}
+        {{item?.amount}}
       </ion-col>
     </ion-row>
   </ion-list>

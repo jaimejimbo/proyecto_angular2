@@ -76,12 +76,15 @@ export class AboutPage {
      Se ejecuta cuando se cambia el estado del checkbox.
      Vuelve a pedir los datos del servidor.
      */
+    this.forced = true;
     this.setPattern();
     this.getInfo();
   }
 
   scrollChanged() {
-    //this.forced = true;
+    /*
+        Se comprueba si esta bloqueado para evitar que se produzcan muchas llamadas.
+    */
     if (!this.locked) {
       this.getInfo();
     }
@@ -124,14 +127,14 @@ export class AboutPage {
      Cuenta el numero de repeticiones de la palabra dada.
      */
     console.log(this.pattern);
-    var regexp = new RegExp(".?" + this.pattern.toLowerCase() + ".?", "gi");
+    var regexp = new RegExp(this.pattern.toString().toLowerCase(), "mgi");
     console.log(regexp);
     var max=0;
     for (let element of this.infojson.reps) {
       var content = element.content;
       var result = regexp.exec(content);
       console.log(result);
-      if (result != null) {
+      if (result!=undefined) {
         element.amount = result.length;
         if (element.amount>max){
             max=element.amount;
@@ -141,6 +144,7 @@ export class AboutPage {
         element.amount = 0;
       }
     }
+    console.log(this.infojson.reps);
     this.coincidencias = max;
   }
 
