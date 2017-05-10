@@ -132,16 +132,15 @@ export class AboutPage {
     var max=0;
     for (let element of this.infojson.reps) {
       var content = element.content;
-      var result = regexp.exec(content);
-      console.log(result);
-      if (result!=undefined) {
-        element.amount = result.length;
-        if (element.amount>max){
-            max=element.amount;
-        }
-      }
-      else {
-        element.amount = 0;
+      var result;
+      var amount = 0;
+      do{
+        amount += 1;
+        result = regexp.exec(content);
+      } while (result);
+      element.amount = amount;
+      if (element.amount>max){
+          max=element.amount;
       }
     }
     console.log(this.infojson.reps);
