@@ -39,14 +39,19 @@
       Repeticiones
     </ion-col>
   </ion-row>
-  <ion-list ion-item *ngFor="let item of infojson?.reps">
-    <ion-row>
-      <ion-col>
-        <a target="_blank" href="{{item?.url}}">{{item?.title}}</a>
-      </ion-col>
-      <ion-col>
-        {{item?.amount}}
-      </ion-col>
-    </ion-row>
-  </ion-list>
+  <div *ngIf="locked; else loadList">
+    Cargando...
+  </div>
+  <template #loadList>
+    <ion-list ion-item *ngFor="let item of infojson?.reps">
+      <ion-row>
+        <ion-col>
+          <a target="_blank" href="{{item?.url}}">{{item?.title}}</a>
+        </ion-col>
+        <ion-col>
+          {{item?.amount}}
+        </ion-col>
+      </ion-row>
+    </ion-list>
+  </template>
 </ion-content>

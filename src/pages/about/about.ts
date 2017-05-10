@@ -20,7 +20,7 @@ export class AboutPage {
   busq: string = "Google";
   pattern_: string = ".*";
   local: Boolean = true;
-  forced: Boolean = true;
+  forced: Boolean = false;
   prev: string = "Google";
   prevpat: string = ".*";
   subs: Subscription;
@@ -31,18 +31,19 @@ export class AboutPage {
   coincidencias: number=10;
 
   constructor(public navCtrl: NavController, public infoService: InfoService) {
-    this.getInfo();
+    this.getInfoCall();
   }
 
   timeoutCall() {
     /*
      Llamada con timeout y con "candado" para evitar que se sature el servidor.
      */
-    if (!this.locked) {
+    if (!this.locked || this.forced) {
+      console.log("timeoutcall");
       this.locked = true;
       setTimeout(() => {
         this.getInfoCall();
-      });
+      }, 5000);
     }
     ;
   }
@@ -52,12 +53,11 @@ export class AboutPage {
      Obtiene la informacion del servidor si es necesario.
      */
 
-    this.setPattern();
-
     var busqueda_cambiada = this.busq !== this.prev;
     var patron_cambiado = (this.pattern !== this.prevpat) && (!this.local);
 
     if (busqueda_cambiada || patron_cambiado || this.forced) {
+      this.setPattern();
       this.timeoutCall();
     }
 
@@ -112,38 +112,44 @@ export class AboutPage {
     /*
      Obtiene la informacion del servidor sin timeouts (recomendado solo para cambios puntuales (checkbox)).
      */
-    this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local, this.resultados)
-      .subscribe(data => {
-        this.info = data;
-        this.infojson = data.json();
-        this.forced = false;
-        this.locked = false;
-        this.filter();
-      });
+    if (this.busq.length>2){
+      this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local, this.resultados)
+        .subscribe(data => {
+          this.info = data;
+          this.infojson = data.json();
+          this.forced = false;
+          this.locked = false;
+          this.filter();
+        });
+    } else {
+      this.forced = false;
+      this.locked = false;
+    }
   }
 
   countWords() {
     /*
      Cuenta el numero de repeticiones de la palabra dada.
      */
-    console.log(this.pattern);
     var regexp = new RegExp(this.pattern.toString().toLowerCase(), "mgi");
-    console.log(regexp);
     var max=0;
-    for (let element of this.infojson.reps) {
-      var content = element.content;
-      var result;
-      var amount = 0;
-      do{
-        amount += 1;
-        result = regexp.exec(content);
-      } while (result);
-      element.amount = amount;
-      if (element.amount>max){
-          max=element.amount;
+    if (this.pattern.toString().length>1 && !this.locked){
+      this.locked=true;
+      for (let element of this.infojson.reps) {
+        var content = element.content;
+        var result;
+        var amount = 0;
+        do{
+          amount += 1;
+          result = regexp.exec(content);
+        } while (result);
+        element.amount = amount;
+        if (element.amount>max){
+            max=element.amount;
+        }
       }
+      this.locked = false;
     }
-    console.log(this.infojson.reps);
     this.coincidencias = max;
   }
 
