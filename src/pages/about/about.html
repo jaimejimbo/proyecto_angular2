@@ -16,6 +16,10 @@
     <ion-label stacked>Patrón</ion-label>
     <ion-input [(ngModel)]="pattern" (keyup)="update()" type="text" placeholder="Expresión regular a buscar"></ion-input>
   </ion-item>
+  <!--<ion-item>
+    <ion-label stacked>Idioma</ion-label>
+    <ion-input [(ngModel)]="lang" (keyup)="getInfo()" type="text" placeholder="Idioma de wikipedia (es-> Español, en->Inglés)"></ion-input>
+  </ion-item>-->
   <ion-item>
     <ion-label>Tratar datos localmente</ion-label>
     <ion-checkbox [(ngModel)]="local" (ngModelChange)="checkChanged()"></ion-checkbox>
