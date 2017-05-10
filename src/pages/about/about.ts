@@ -39,7 +39,6 @@ export class AboutPage {
      Llamada con timeout y con "candado" para evitar que se sature el servidor.
      */
     if (!this.locked || this.forced) {
-      console.log("timeoutcall");
       this.locked = true;
       setTimeout(() => {
         this.getInfoCall();
