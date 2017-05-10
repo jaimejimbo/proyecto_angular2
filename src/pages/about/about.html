@@ -39,7 +39,7 @@
       Repeticiones
     </ion-col>
   </ion-row>
-  <ion-list ion-item *ngFor="let item of infojson?.reps" (click)="visit(item.url)">
+  <ion-list ion-item *ngFor="let item of infojson?.reps">
     <ion-row>
       <ion-col>
         <a target="_blank" href="{{item?.url}}">{{item?.title}}</a>
