@@ -11,20 +11,20 @@
 <ion-content padding class="add-contact">
   <input type="hidden" [(ngModel)]="contact.id" />
   <ion-item>
-    <ion-label stacked>Name</ion-label>
+    <ion-label stacked>Nombre</ion-label>
     <ion-input [(ngModel)]="contact.name" type="text" placeholder="Introduzca nombres y apellidos"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label stacked>Address</ion-label>
+    <ion-label stacked>Dirección</ion-label>
     <ion-input [(ngModel)]="contact.address" type="text" placeholder="Introduzca la dirección"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label stacked>Phone</ion-label>
+    <ion-label stacked>Teléfono</ion-label>
     <ion-input [(ngModel)]="contact.phone" type="text" placeholder="Introduzca el número de teléfono"></ion-input>
   </ion-item>
   <ion-item>
-    <ion-label stacked>City</ion-label>
+    <ion-label stacked>Ciudad</ion-label>
     <ion-input [(ngModel)]="contact.city" type="text" placeholder="Introduzca la ciudad"></ion-input>
   </ion-item>
-  <button ion-button color="primary" (click)="addContact(contact.id, contact.name, contact.address, contact.phone, contact.city)"> <span *ngIf="contact.id">Update Contact</span><span *ngIf="!contact.id">Añadir</span> </button>
+  <button ion-button color="primary" (click)="addContact(contact.id, contact.name, contact.address, contact.phone, contact.city)"> <span *ngIf="contact.id">Actualizar</span><span *ngIf="!contact.id">Añadir</span> </button>
 </ion-content>

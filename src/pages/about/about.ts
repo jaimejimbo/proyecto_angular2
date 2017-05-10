@@ -29,6 +29,7 @@ export class AboutPage {
   locked: Boolean = false;
   resultados: number = 10;
   coincidencias: number=10;
+  lang: string="es";
 
   constructor(public navCtrl: NavController, public infoService: InfoService) {
     this.getInfoCall();
@@ -112,7 +113,7 @@ export class AboutPage {
      Obtiene la informacion del servidor sin timeouts (recomendado solo para cambios puntuales (checkbox)).
      */
     if (this.busq.length>2){
-      this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local, this.resultados)
+      this.infoService.getDataPromise(this.uid, this.pattern_, this.busq, this.local, this.resultados, this.lang)
         .subscribe(data => {
           this.info = data;
           this.infojson = data.json();
