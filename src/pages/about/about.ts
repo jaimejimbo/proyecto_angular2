@@ -126,25 +126,30 @@ export class AboutPage {
     /*
      Cuenta el numero de repeticiones de la palabra dada.
      */
-    console.log(this.pattern);
-    var regexp = new RegExp(this.pattern.toString().toLowerCase(), "mgi");
-    console.log(regexp);
-    var max=0;
-    for (let element of this.infojson.reps) {
-      var content = element.content;
-      var result;
-      var amount = 0;
-      do{
-        amount += 1;
-        result = regexp.exec(content);
-      } while (result);
-      element.amount = amount;
-      if (element.amount>max){
-          max=element.amount;
+    if (!this.locked && this.pattern.length>0){
+      this.locked = true;
+      var regexp = new RegExp(this.pattern.toLowerCase(), "mgi");
+      regexp = regexp.compile();
+      var max=0;
+      for (let element of this.infojson.reps) {
+        var content = element.content;
+        var result;
+        var amount = 0;
+        do{
+          amount += 1;
+          result = regexp.exec(content);
+          if (amount>5000) {
+            break;
+          }
+        } while (result);
+        element.amount = amount;
+        if (element.amount>max){
+            max=element.amount;
+        }
       }
+      this.coincidencias = max; 
+      this.locked = false;
     }
-    console.log(this.infojson.reps);
-    this.coincidencias = max;
   }
 
 }
