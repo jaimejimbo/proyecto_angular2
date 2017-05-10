@@ -142,6 +142,7 @@ export class AboutPage {
           amount += 1;
           result = regexp.exec(content);
         } while (result);
+        amount -= 1;
         element.amount = amount;
         if (element.amount>max){
             max=element.amount;

@@ -2,7 +2,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>addContact</ion-title>
+    <ion-title>Añadir contacto</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -12,19 +12,19 @@
   <input type="hidden" [(ngModel)]="contact.id" />
   <ion-item>
     <ion-label stacked>Name</ion-label>
-    <ion-input [(ngModel)]="contact.name" type="text" placeholder="Fill yor first and last name"></ion-input>
+    <ion-input [(ngModel)]="contact.name" type="text" placeholder="Introduzca nombres y apellidos"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Address</ion-label>
-    <ion-input [(ngModel)]="contact.address" type="text" placeholder="Fill your full address"></ion-input>
+    <ion-input [(ngModel)]="contact.address" type="text" placeholder="Introduzca la dirección"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>Phone</ion-label>
-    <ion-input [(ngModel)]="contact.phone" type="text" placeholder="Fill your phone number"></ion-input>
+    <ion-input [(ngModel)]="contact.phone" type="text" placeholder="Introduzca el número de teléfono"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label stacked>City</ion-label>
-    <ion-input [(ngModel)]="contact.city" type="text" placeholder="Fill your city"></ion-input>
+    <ion-input [(ngModel)]="contact.city" type="text" placeholder="Introduzca la ciudad"></ion-input>
   </ion-item>
-  <button ion-button color="primary" (click)="addContact(contact.id, contact.name, contact.address, contact.phone, contact.city)"> <span *ngIf="contact.id">Update Contact</span><span *ngIf="!contact.id">Add Contact</span> </button>
+  <button ion-button color="primary" (click)="addContact(contact.id, contact.name, contact.address, contact.phone, contact.city)"> <span *ngIf="contact.id">Update Contact</span><span *ngIf="!contact.id">Añadir</span> </button>
 </ion-content>

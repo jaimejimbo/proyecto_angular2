@@ -2,7 +2,7 @@
 
   <ion-navbar color="primary">
     <ion-title>
-      Contact
+      Contactos
     </ion-title>
     <ion-buttons end>
       <button (click)="addContact()">
@@ -14,12 +14,12 @@
 
 <ion-content color="secundary">
   <ion-list>
-    <ion-list-header>My Contacts</ion-list-header>
+    <ion-list-header>Mis contactos</ion-list-header>
     <ion-item-sliding *ngFor="let contact of contactList | async">
       <ion-item>
         <h2>{{contact.name}}</h2>
-        <h3>Address: {{contact.address}}, {{contact.city}}</h3>
-        <p>Phone: {{contact.phone}}</p>
+        <h3>Dirección: {{contact.address}}, {{contact.city}}</h3>
+        <p>Teléfono: {{contact.phone}}</p>
       </ion-item>
       <ion-item-options>
           <button (click)="deleteContact(contact)">
